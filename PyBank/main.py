@@ -3,8 +3,9 @@ import os
 import csv
 
 # Path to collect data from the Resources folder
-csvpath = os.path.join("Resources", "budget_data.csv")
-path = "/Users/lorishannon/Desktop/python-challenge/PyBank/Resources/budget_data.csv"
+dirname = os.path.dirname(__file__)
+filepath = os.path.join(dirname, 'Resources/budget_data.csv')
+
 
 # Variables
 total_months = 0
@@ -17,7 +18,7 @@ changeList = []
 monthList = []
 
 # Open the CSV
-with open(path, newline="") as csvfile:
+with open(filepath, newline="") as csvfile:
     csvreader = csv.reader(csvfile, delimiter=",")
     header = next(csvreader)
 
@@ -50,7 +51,7 @@ print(f"Greatest Increase in Profits: {monthList[maxindex +1]} $({(max(changeLis
 print(f"Greatest Decrease in Profits: {monthList[minindex +1]} $({(min(changeList))})")
 
 # Specify the file to write to
-output_path = os.path.join("/Users/lorishannon/Desktop/python-challenge/PyBank/Output", "PyBank.csv")
+output_path = os.path.join(dirname, "Output", "PyBank.csv")
 
 # Open the file using "write" mode. Specify the variable to hold the contents
 with open(output_path, 'w', newline='') as PyBank:
@@ -61,9 +62,9 @@ with open(output_path, 'w', newline='') as PyBank:
     # Write the first row (column headers)
     csvwriter.writerow(['Financial Analysis'])
     csvwriter.writerow(['-----------------------'])
-    csvwriter.writerow(['Total Months: {total_months}'])
-    csvwriter.writerow(['Total: ${total_volume}'])
-    csvwriter.writerow(['Average Change: ${round(changeList)/len(changeList)}'])
-    csvwriter.writerow(['Greatest Increase in Profits: {monthList[maxindex +1]} $({(max[changeList])})'])
-    csvwriter.writerow(['Greatest Decrease in Profits: {monthList[minindex +1]} $({(min[changeList])})'])
+    csvwriter.writerow([f'Total Months: {total_months}'])
+    csvwriter.writerow([f'Total: ${total_volume}'])
+    csvwriter.writerow([f'Average Change: ${round(sum(changeList)/len(changeList))}'])
+    csvwriter.writerow([f'Greatest Increase in Profits: {monthList[maxindex +1]} $({(max(changeList))})'])
+    csvwriter.writerow([f'Greatest Decrease in Profits: {monthList[minindex +1]} $({(min(changeList))})'])
 
