@@ -3,7 +3,7 @@ import os
 import csv
 
 # Path to collect data from the Resources folder
-csvpath = os.path.join("..", "Resources", "budget_data.csv")
+csvpath = os.path.join("Resources", "budget_data.csv")
 path = "/Users/lorishannon/Desktop/python-challenge/PyBank/Resources/budget_data.csv"
 
 # Variables
@@ -14,6 +14,7 @@ previous_month = 0
 
 # Lists to store data
 changeList = []
+monthList = []
 
 # Open the CSV
 with open(path, newline="") as csvfile:
@@ -25,29 +26,44 @@ with open(path, newline="") as csvfile:
         total_months += 1
         total_volume += int(row[1])    
         #average changes = average of the current row's volume - the previous row's volume (that needs to be stored in a variable) divided by month
-        current_month += int(row[1])
-        previous_month = int(row[1])
+        current_month = int(row[1])
         monthly_change = (current_month - previous_month)
-        changeList = monthly_change
-        #changeList.append(total_volume)
+        changeList.append(monthly_change)
         #len(changeList)
-        print(changeList)
-
-# save the output file path
-output_file = os.path.join("output.csv")
-
-# open the output file, create a header row, and then write the zipped object to the csv
-with open(output_file, "w", newline="") as datafile:
-    writer = csv.writer(datafile)
-
-    writer.writerow(["Financial Analysis"])
-
+        previous_month = int(row[1])
+        #print(changeList)
+        monthList.append(row[0])
+        
+changeList.pop(0)
+maxindex = changeList.index(max(changeList))
+#print(monthList[maxindex +1])
+minindex = changeList.index(min(changeList))
+#print(monthList[minindex +1])
 
 #Print to the screen 
 print("Financial Analysis")
 print("-----------------------")
 print(f"Total Months: {total_months}")
-print(f"Total: {total_volume}")
-print(f"Average Change: ({changeList} / {total_volume}))")
-print(f"Greatest Increase in Profits: (max( {changeList} )")
-print(f"Greatest Decrease in Profits: (min( {changeList} )")
+print(f"Total: ${total_volume}")
+print(f"Average Change: ${round(sum(changeList)/len(changeList))}")
+print(f"Greatest Increase in Profits: {monthList[maxindex +1]} $({(max(changeList))})")
+print(f"Greatest Decrease in Profits: {monthList[minindex +1]} $({(min(changeList))})")
+
+# Specify the file to write to
+output_path = os.path.join("/Users/lorishannon/Desktop/python-challenge/PyBank/Output", "PyBank.csv")
+
+# Open the file using "write" mode. Specify the variable to hold the contents
+with open(output_path, 'w', newline='') as PyBank:
+
+    # Initialize csv.writer
+    csvwriter = csv.writer(PyBank, delimiter=',')
+
+    # Write the first row (column headers)
+    csvwriter.writerow(['Financial Analysis'])
+    csvwriter.writerow(['-----------------------'])
+    csvwriter.writerow(['Total Months: {total_months}'])
+    csvwriter.writerow(['Total: ${total_volume}'])
+    csvwriter.writerow(['Average Change: ${round(changeList)/len(changeList)}'])
+    csvwriter.writerow(['Greatest Increase in Profits: {monthList[maxindex +1]} $({(max[changeList])})'])
+    csvwriter.writerow(['Greatest Decrease in Profits: {monthList[minindex +1]} $({(min[changeList])})'])
+

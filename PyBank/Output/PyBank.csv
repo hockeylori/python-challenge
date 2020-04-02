@@ -1,0 +1,7 @@
+Financial Analysis
+-----------------------
+Total Months: {total_months}
+Total: ${total_volume}
+Average Change: ${round(changeList)/len(changeList)}
+Greatest Increase in Profits: {monthList[maxindex +1]} $({(max[changeList])})
+Greatest Decrease in Profits: {monthList[minindex +1]} $({(min[changeList])})
